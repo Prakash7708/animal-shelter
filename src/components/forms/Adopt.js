@@ -19,6 +19,35 @@ function Adopt(props) {
           
         },
         onSubmit: async (values) => {
+
+          const validate = (values) => {
+            var phoneNum = /^[6-9]\d{9}$/;
+            let errors = {};
+          
+            if (!values.Email) {
+              errors= 'EmailID Required';
+            }
+             else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.Email)) {
+              errors = 'Invalid email address';
+            }else if(!values.Fullname){
+              errors="Fullname is Required"
+            }else if(values.Fullname.length<4){
+              errors="name requires minimum 4 Characters"
+            }else if(!values.Phone){
+              errors="Phonenumber required "
+            }else if(!values.Phone.match(phoneNum)){ 
+              errors="enter valid phoneNo"
+            }else{
+              errors=false
+            }
+            return errors;
+          };
+          
+           let validform=validate(values)
+           
+          
+          if(validform===false){
+
             let actionType=""
             if(props.trigger_adopt){
                  actionType="adopt"
@@ -77,9 +106,12 @@ function Adopt(props) {
             };
           };
 
-         
+         alert(actionType+" request sended successfully")
 
-
+        }else{
+          console.log(validform)
+          alert(validform)
+         }
 
         },})
     return (props.trigger_adopt)?(
